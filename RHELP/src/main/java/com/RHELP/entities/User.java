@@ -2,6 +2,7 @@ package com.RHELP.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,12 +49,14 @@ public class User implements Serializable {
 	private String username;
 	private String prenom;
 	private String nom;
-	private LocalDate dateOfBirth;
+
+	private Date dateOfBirth;
 	private String phone;
 	private String email;
 	private String photo;
 	private String cin;
 	private String adresse ; 
+	private String pays; 
 	private String ville; 
 	private String nationality; 
 	private String family_status; 
@@ -68,6 +74,7 @@ public class User implements Serializable {
 	private int dureeConges = 30;
 	private int joursConges;
 	private int soldeConges = 30;
+	private String poste = "";
 	private String id_card_number;
 	private int budget = 0;
 	private int archived = 1 ; 
@@ -86,7 +93,7 @@ public class User implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Caisse> caisses;
 
-	public User(String username, LocalDate dateOfBirth, String phone, String email, String password) {
+	public User(String username, Date dateOfBirth, String phone, String email, String password) {
 		this.username = username;
 		this.dateOfBirth = dateOfBirth;
 		this.phone = phone;

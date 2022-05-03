@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/3">
+  <div  class="flex items-center justify-center min-h-[570px] p-8">
       <notifications group="notif" />
       <div class="px-8 py-6 text-left shadow-md">
         <h3 class="text-2xl font-bold">Welcome in Your Company</h3>
@@ -132,7 +132,7 @@ export default {
                   } else {
                     this.$notify({
                       title: "Register",
-                      text: "A problem has occured. Please try again!",
+                      text: "A problem has occured : username and email must be unique, Please try again!",
                       type: 'error',
                     });
                   }

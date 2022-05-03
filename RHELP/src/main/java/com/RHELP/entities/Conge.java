@@ -24,7 +24,7 @@ public class Conge implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idCOnge;
+	private Long idConge;
 	
 	private String typeConge;
 	private Date debutConge;

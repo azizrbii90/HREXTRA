@@ -1,6 +1,7 @@
 package com.RHELP.payload.request;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -17,7 +18,7 @@ public class SignupRequest {
     @Email
     private String email;
     
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     
     private String phone;
      
@@ -27,11 +28,11 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
     
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

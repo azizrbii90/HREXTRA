@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.RHELP.repositories.CandidatRepo;
 import com.RHELP.services.CandidateService;
+import com.RHELP.services.FileUploadService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,12 +38,15 @@ import org.springframework.http.ResponseEntity;
 
 import com.RHELP.entities.Candidat;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class CandidateController {
 	
 	@Autowired
 	private CandidatRepo candidatRepo;
+	
+	@Autowired
+	private FileUploadService fileUploadService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(CandidateController.class);
 	
@@ -62,22 +67,22 @@ public class CandidateController {
 	
 	private final Path rootLocation = Paths.get("C:\\Utilisateurs\\Aziz\\Bureau\\candidats");	
 
-	@PostMapping("create-candidat")
-	public ResponseEntity<?> createCandidate(@RequestPart("candidate") String candidate, @RequestParam("cv_file")
+	@PostMapping(value="/create-candidat")
+	public ResponseEntity<?> createCandidate(@RequestParam("candidate") String candidate, @RequestParam("cv_file")
 	MultipartFile file1, @RequestParam("motiv_letter_file") MultipartFile file2) throws JsonParseException, JsonMappingException, IOException {
-		
+
 		Candidat candidate1 = new ObjectMapper().readValue(candidate, Candidat.class);
 		System.out.println("the candidate" + candidate1);
 		
-		candidate1.setPathCv(file1.getOriginalFilename());
-		candidate1.setPathMotivationLetter(file2.getOriginalFilename());
+		candidate1.setPathCv(fileUploadService.upload(file1));
+		candidate1.setPathMotivationLetter(fileUploadService.upload(file2));
 		
 		Candidat candidate2 = candidatRepo.save(candidate1);
 		
 		if(candidate2!=null) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body("user is saved");
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("candiate is saved");
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("user is not saved");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("candidate is not saved");
 		}
 	}
 	

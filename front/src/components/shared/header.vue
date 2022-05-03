@@ -5,7 +5,7 @@
       <div
         class="container flex flex-wrap justify-between items-center mx-auto"
       >
-        <a href="https://flowbite.com" class="flex items-center">
+        <a @click="this.$router.push('/')" href="#" class="flex items-center">
           <span
             class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
             >HREXTRA</span
@@ -25,15 +25,16 @@
                 >Home</a
               >
             </li>
-            <li>
+            <li @click="this.$router.push('/candidate')">
               <a
                 href="#"
                 class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >Candidate Area</a
               >
             </li>
-            <li v-if="user===null" @click="this.$router.push('sign-in')">
+            <li v-if="exist===false" @click="this.$router.push('sign-in')">
               <a
+                href="#"
                 class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >Employee Area</a
               >
@@ -57,12 +58,29 @@ export default {
 
   mixins: [UserMixin],
 
+  data() {
+      return {
+        exist : false
+      }
+  },
+
+  watch: {
+    user() {
+      if(this.user===null) {
+        this.exist = false
+      } else {
+        this.exist = true
+      }
+    }
+  },
+
   methods : {
     
     _logout () {
+      let self = this
       this.$store.dispatch("logout").then(data => {
             localStorage.removeItem("token");
-            this.$router.push('/');
+            self.$router.push('/');
       })
     }
   }

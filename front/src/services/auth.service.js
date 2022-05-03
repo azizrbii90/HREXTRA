@@ -7,7 +7,9 @@ export function RegisterService(data) {
     return new Promise((resolve, reject) => {
         axios.post(url + '/signup/', data).then(response => {
             resolve(response.data)
-        }).catch(err => reject(err))
+        }).catch(err => {
+            resolve(err)
+        })
     }) 
 }
 

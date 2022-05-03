@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/3">
+  <div class="flex items-center justify-center min-h-[570px]">
       <div class="px-8 py-6 text-left shadow-lg">
         <h3 class="text-2xl font-bold">Login to your account</h3>
         <form @submit.prevent="_login">
@@ -47,8 +47,12 @@
 </template>
 
 <script>
+import UserMixin from "@/mixins/user.mixin.js";
 
 export default {
+    
+    mixins: [UserMixin],
+
     data() {
         return {
             data : {
@@ -63,7 +67,11 @@ export default {
             e.preventDefault()
             const self = this
             this.$store.dispatch("login", this.data).then(data => {
+                console.log("user ",data)
                 if(data) {
+                  self.$store.dispatch("ListVacations", this.user.idUser).then(data => {
+                    console.log("all conges ",data)
+                  })
                   self.$router.push('/dashboard');
                 } else {
                   this.$notify({

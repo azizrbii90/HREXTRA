@@ -2,7 +2,7 @@
   <div>
     <Header />
     <notifications />
-    <div class="flex items-center justify-center min-h-[607px] p-6">
+    <div class="min-h-[570px]">
     <router-view />
     </div>
   </div>  
@@ -13,14 +13,10 @@ import Header from "./components/shared/header.vue";
 
 export default {
 
+  //    <div class="flex items-center justify-center min-h-[607px] p-6">
   components: {
          Header
   },
-  mounted () {
-    if (localStorage.token) {
-        this.$store.dispatch("getUserFromToken")
-    }
-  }
 }
 </script>
 

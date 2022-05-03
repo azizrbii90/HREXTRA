@@ -1,4 +1,5 @@
 import { RegisterService, LoginService, GetInfo } from '@/services/auth.service.js'
+import { UpdateInfoUserService, UpdateAvatarService } from '@/services/user.service.js'
 
 export default {
     state: {
@@ -51,7 +52,27 @@ export default {
                 context.commit("setCurrentAuth", true);   
             }
             return user;
-          },
+        },
+
+        async updateInfoUser(context, data) {
+            const response = await UpdateInfoUserService(data);
+            if(response.idUser) {
+                context.commit("setCurrentUser", response)
+                return true
+            }
+
+            return false
+        },
+
+        async updateAvatarUser(context, formData) {
+            const response = await UpdateAvatarService(formData);
+            if(response!=="user not updated") {
+                context.commit("setCurrentUser", JSON.parse(response))
+                return true
+            }
+
+            return false
+        }
     }
 }
 

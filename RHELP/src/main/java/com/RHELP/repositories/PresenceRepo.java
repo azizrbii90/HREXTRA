@@ -13,7 +13,7 @@ import com.RHELP.entities.Presence;
 @Repository
 public interface PresenceRepo extends JpaRepository<Presence, Long> {
 
-	@Query(value="select p from Presence p wehere p.user.idUser = :id", nativeQuery = true)
+	@Query("select p from Presence p where p.user.idUser = :id")
 	public List<Presence> findUserPresenceByUserId(@Param("id") Long id);
 	
 }
